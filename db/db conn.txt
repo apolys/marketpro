@@ -1,0 +1,1 @@
+ubuntu@ip-172-31-48-91:~$ sudo mysql -h wordpress.cjvbtvfxtuvr.ap-northeast-2.rds.amazonaws.com -P 3306 -u admin -p

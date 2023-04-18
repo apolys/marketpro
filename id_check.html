@@ -1,0 +1,81 @@
+<?php  include "./include/dbinfo.inc" ?>
+
+<?php
+
+session_start();
+
+ /* Connect to MySQL and select the database. */
+
+  $connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
+
+  if(mysqli_connect_errno()) echo "Failed to connect to MySQL: " . mysqli_connect_error();
+
+   $database = mysqli_select_db($connection, DB_DATABASE);
+
+?>
+
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>marketpro</title>
+</head>
+
+<body>
+
+
+<?php
+
+$user_id = ($_POST['user_id']);
+$p_password = ($_POST['user_pass']);
+
+
+echo "$user_id;$p_password;;;<br>";
+
+$result = mysqli_query($connection, "SELECT * FROM id where id='$user_id' and pass='$p_password' ");
+while($rows = mysqli_fetch_array($result)) {
+
+		$uID		 = $rows["id"];
+		$uName		 = $rows["name"];
+		$uPass		 = $rows["pass"];
+		$uLevel		 = $rows["level"];
+
+		$uBrand		 = $rows["brand"];
+
+
+$count++;
+
+
+echo "$count;<br>";
+
+}
+
+echo "$uID;$uName;$uPass;$uLevel;$uBrand;;";
+
+//exit;
+if(!$uID)
+{ 
+?>
+<?php		
+		echo"<META HTTP-EQUIV='Refresh' CONTENT='0;URL=index.html'>";
+
+exit;
+}
+
+
+//php 5.0이상
+$_SESSION['uID']		 = $uID;
+$_SESSION['uName']		 = $uName;
+$_SESSION['uPass']		 = $uPass;
+$_SESSION['uLevel']		 = $uLevel;
+$_SESSION['uBrand']		 = $uBrand;
+
+echo "$uID;$uName;$uPass;$uLevel;$uBrand;;";
+
+
+//include "./common/access.html";
+
+//exit;
+
+?>
+
+		echo"<META HTTP-EQUIV='Refresh' CONTENT='1;URL=./work/main.html'>";
+

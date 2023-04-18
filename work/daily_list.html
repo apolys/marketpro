@@ -1,0 +1,335 @@
+<?php  include "../include/session.php" ?>
+
+<?php  include "../include/top.html" ?>
+
+<?php  include "../include/dbinfo.inc" ?>
+
+<?php
+
+ /* Connect to MySQL and select the database. */
+
+  $connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
+
+  if(mysqli_connect_errno()) echo "Failed to connect to MySQL: " . mysqli_connect_error();
+
+   $database = mysqli_select_db($connection, DB_DATABASE);
+
+?>
+<?php  include "../include/db_query.php" ?>
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-color:#aabcfe;border-spacing:0;}
+.tg td{background-color:#e8edff;border-color:#aabcfe;border-style:solid;border-width:1px;color:#669;
+  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{background-color:#b9c9fe;border-color:#aabcfe;border-style:solid;border-width:1px;color:#039;
+  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-phtq{background-color:#D2E4FC;border-color:inherit;text-align:left;vertical-align:top}
+.tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
+.tg .tg-ydyv{background-color:#D2E4FC;border-color:inherit;text-align:right;vertical-align:top}
+.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+.tg .tg-svo0{background-color:#D2E4FC;border-color:inherit;text-align:center;vertical-align:top}
+.tg .tg-dvpl{border-color:inherit;text-align:right;vertical-align:top}
+</style>
+<script LANGUAGE="JAVASCRIPT">
+		function ChangeMenu(url)
+		{
+			document.DataSearch.action = location.href;
+			document.DataSearch.submit();
+		}
+</script>
+
+
+<?php
+$SrchYear = ($_POST['SrchYear']);
+$SrchMonth = ($_POST['SrchMonth']);
+$SrchDay = ($_POST['SrchDay']);
+
+
+if(!$SrchYear){
+	$SrchYear = date("Y");
+}
+if(!$SrchMonth){
+	$SrchMonth = date("m");
+}
+if(!$SrchDay){
+	$SrchDay = date("d");
+}
+
+if(!$t_year){
+	$t_year = date("Y");
+}
+if(!$t_month){
+	$t_month = date("m");
+}
+if(!$t_day){
+	$t_day = date("d");
+}
+
+
+$total_count = 0;
+
+$search_query = " and input_user='$uID' ";
+$search_date = " and year='$SrchYear' and month='$SrchMonth' ";
+
+//echo "<br><br><br><br><br><br><br>$search_date;;";
+
+$result = mysqli_query($connection, "SELECT * FROM daily where 1 $search_query order by no desc");
+while($rows = mysqli_fetch_array($result)) {
+
+	$no = $rows['no'];
+	$d_no = $rows['d_no'];
+	$no_list[$total_count] = $no;
+	$d_count = $rows['d_count'];
+	$d_year[$no] = $rows['year'];
+	$d_month[$no] = $rows['month'];
+	$d_day[$no] = $rows['day'];
+	$d_visitdate[$no] = $rows['visitdate'];
+	$d_location[$no] = $rows['location'];
+	$d_time_in[$no] = $rows['time_in'];
+	$d_time_out[$no] = $rows['time_out'];
+	$d_purpose[$no] = $rows['purpose'];
+	$d_brand[$no] = $rows['brand'];
+	$d_channel[$no] = $rows['channel'];
+	$d_store[$no] = $rows['store'];
+	$d_mgr[$no] = $rows['mgr'];
+	$d_input_user[$no] = $rows['input_user'];
+	$d_chk_no[$no] = $rows['chk_no'];
+
+	$d_t_in[$no] = substr($d_time_in[$no],11,5);
+	$d_t_out[$no] = substr($d_time_out[$no],11,5);
+
+
+$total_count++;
+}
+
+?>
+
+<?php
+
+$result = mysqli_query($connection, "SELECT * FROM checklist where division='a' ");
+
+while($rows = mysqli_fetch_array($result)) {
+
+	$no = $rows['no'];
+	$c_no = $rows['c_no'];
+	$c_count = $rows['c_count'];
+	$c_title[$c_count] = $rows['title'];
+	$c_brand[$c_count] = $rows['brand'];
+	$c_channel[$c_count] = $rows['channel'];
+	$c_store[$c_count] = $rows['store'];
+	$c_input_user[$c_count] = $rows['input_user'];
+	$c_division[$c_count] = $rows['division'];
+	$c_question[$c_count] = $rows['question'];
+	$c_type1[$c_count] = $rows['type1'];
+	$c_type2[$c_count] = $rows['type2'];
+	$c_type3[$c_count] = $rows['type3'];
+	$c_type4[$c_count] = $rows['type4'];
+	$c_type5[$c_count] = $rows['type5'];
+	$c_m01[$c_count] = $rows['m01'];
+	$c_m02[$c_count] = $rows['m02'];
+	$c_m03[$c_count] = $rows['m03'];
+	$c_m04[$c_count] = $rows['m04'];
+	$c_m05[$c_count] = $rows['m05'];
+	$c_m06[$c_count] = $rows['m06'];
+	$c_m07[$c_count] = $rows['m07'];
+	$c_m08[$c_count] = $rows['m08'];
+	$c_m09[$c_count] = $rows['m09'];
+	$c_m10[$c_count] = $rows['m10'];
+
+	$cc_m[1] = $rows['m01'];
+	$cc_m[2] = $rows['m02'];
+	$cc_m[3] = $rows['m03'];
+	$cc_m[4] = $rows['m04'];
+	$cc_m[5] = $rows['m05'];
+	$cc_m[6] = $rows['m06'];
+	$cc_m[7] = $rows['m07'];
+	$cc_m[8] = $rows['m08'];
+	$cc_m[9] = $rows['m09'];
+	$cc_m[10] = $rows['m10'];
+
+	$d_no = $rows['d_no'];
+
+	for($cc_count=1;$cc_count<=10;$cc_count++){
+		if($cc_m[$cc_count]){$c_m_data[$d_no][$c_count] = $cc_m[$cc_count];}
+	}
+
+	$c_answer[$d_no][$c_count] = $rows['answer'];
+
+	$cmdata = $c_m_data[$d_no][$c_count];
+
+	$canswer = $c_answer[$d_no][$c_count];
+
+	$checklist_total++;
+
+//echo "$no;$c_count;$c_question[$c_count];$c_type1[$c_count];;;<br>";
+
+}
+
+$arr_alphabet = array('a/','b/','c/','d/','e/','f/');
+$alphabet_count = 0;
+
+
+
+
+$store_name['s100001'] = "이마트 성수점";
+?>
+
+
+    <!-- Start block -->
+    <section class="bg-white dark:bg-gray-900">
+        <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
+            <div class="mr-auto place-self-center lg:col-span-7">
+
+
+		<form name="DataSearch" method="POST">검색 : 
+                    <select name="SrchYear" >
+                      <option value="2022" <?php if($SrchYear=="2022"){echo "selected";}?> >2022년</option>
+                      <option value="2023" <?php if($SrchYear=="2023"){echo "selected";}?> >2023년</option>
+                      <option value="2024" <?php if($SrchYear=="2024"){echo "selected";}?> >2024년</option>
+                      <option value="2025" <?php if($SrchYear=="2025"){echo "selected";}?> >2025년</option>
+                    </select>
+                    <select name="SrchMonth" OnChange="ChangeMenu()">
+                      <option value="01" <?php if($SrchMonth=="01"){echo "selected";}?> >1월</option>
+                      <option value="02" <?php if($SrchMonth=="02"){echo "selected";}?> >2월</option>
+                      <option value="03" <?php if($SrchMonth=="03"){echo "selected";}?> >3월</option>
+                      <option value="04" <?php if($SrchMonth=="04"){echo "selected";}?> >4월</option>
+                      <option value="05" <?php if($SrchMonth=="05"){echo "selected";}?> >5월</option>
+                      <option value="06" <?php if($SrchMonth=="06"){echo "selected";}?> >6월</option>
+                      <option value="07" <?php if($SrchMonth=="07"){echo "selected";}?> >7월</option>
+                      <option value="08" <?php if($SrchMonth=="08"){echo "selected";}?> >8월</option>
+                      <option value="09" <?php if($SrchMonth=="09"){echo "selected";}?> >9월</option>
+                      <option value="10" <?php if($SrchMonth=="10"){echo "selected";}?> >10월</option>
+                      <option value="11" <?php if($SrchMonth=="11"){echo "selected";}?> >11월</option>
+                      <option value="12" <?php if($SrchMonth=="12"){echo "selected";}?> >12월</option>
+                    </select>
+
+			</form>
+			</div>
+		</div>
+	</scection>
+    <!-- Start block -->
+    <section class="bg-white dark:bg-gray-900">
+        <div class="max-w-screen-xl px-4 pb-8 mx-auto lg:pb-16">
+            <div class="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
+				<div>
+
+<table class="tg">
+<thead>
+  <tr>
+    <th class="tg-c3ow" colspan="4">출퇴근 > 방문결과 확인 <?php echo "$SrchMonth;"; ?></th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-svo0">date</td>
+    <td class="tg-svo0">store</td>
+    <td class="tg-svo0">time</td>
+    <td class="tg-svo0">목적</td>
+  </tr>
+
+<?php
+for($count=0;$count<$total_count;$count++){
+
+	$no = $no_list[$count];
+	$scode = $d_store[$no];
+	$t_in = $d_time_in[$no];
+	$v_date = $d_visitdate[$no];
+	$user_id = $d_input_user[$no];
+
+	$cmdata = $c_m_data[$no][1];
+	$canswer = $c_answer[$no][2];
+
+//	$monthday = substr($v_date,4,4);
+	$monthday = substr($v_date,6,2);
+
+	$count2 = $count+1;
+?>
+
+  <tr>
+    <td class="tg-c3ow"><?php echo $monthday; ?>일</td>
+    <td class="tg-dvpl"><?php echo "$store_name[$scode]";?></td>
+    <td class="tg-c3ow"><?php echo $d_t_in[$no];?></td>
+    <td class="tg-c3ow"><?php echo"$d_purpose[$no]";?></td>
+  </tr>
+
+<?php 
+}
+?>
+
+</tbody>
+</table>			
+				</div>
+				
+				<!-- Pricing Card -->
+                <div class="flex flex-col max-w-lg p-6 mx-auto text-center text-gray-900 bg-white border border-gray-100 rounded-lg shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+                    <h3 class="mb-4 text-2xl font-semibold">1월 근무일/휴가</h3>
+                    <p class="font-light text-gray-500 sm:text-lg dark:text-gray-400">*휴가 신청 후 팀장확인 필요</p>
+                    <div class="flex items-baseline justify-center my-8">
+                        <span class="mr-2 text-5xl font-extrabold"><?php echo "$total_count"; ?>일</span>
+                        <span class="mr-2 text-5xl font-extrabold"> / 0회</span>
+                    </div>
+                    <!-- List -->
+                    <ul role="list" class="mb-8 space-y-4 text-left">
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            <span>근무목표 0 / 달성 <?php echo "$total_count"; ?></span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            <span>대체휴일</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            <span>연장근무 or 특근</span>
+                        </li>
+						</ul>
+                    <a href="annual.html" class="text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-purple-900">휴가신청</a>
+                </div>
+
+
+
+				<!-- report Card -->
+                <div class="flex flex-col max-w-lg p-6 mx-auto text-center text-gray-900 bg-white border border-gray-100 rounded-lg shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+                    <h3 class="mb-4 text-2xl font-semibold">근무일/휴가사용</h3>
+                    <p class="font-light text-gray-500 sm:text-lg dark:text-gray-400">*휴가 신청 후 팀장확인 필요</p>
+                    <div class="flex items-baseline justify-center my-8">
+                        <span class="mr-2 text-5xl font-extrabold">2일</span>
+                        <span class="mr-2 text-5xl font-extrabold">/1회</span>
+                    </div>
+                    <!-- List -->
+                    <ul role="list" class="mb-8 space-y-4 text-left">
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            <span>근무목표 2 / 달성 2</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            <span>연차 1회</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-purple-900">휴가신청</a>
+                </div>
+
+
+
+
+	        </div>
+		</div>
+	</scection>
+
+    <!-- End block -->
+
+
+    <!-- Start block -->
+
+            <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8">
+
+	<!-- End block -->
+
+
+<?php  include "../include/footer.html" ?>

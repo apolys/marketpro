@@ -1,0 +1,426 @@
+<?php  include "../include/session.php" ?>
+
+<?php  include "../include/top.html" ?>
+
+<?php  include "../include/dbinfo.inc" ?>
+
+<?php
+
+ /* Connect to MySQL and select the database. */
+
+  $connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
+
+  if(mysqli_connect_errno()) echo "Failed to connect to MySQL: " . mysqli_connect_error();
+
+   $database = mysqli_select_db($connection, DB_DATABASE);
+
+?>
+<?php  include "../include/db_query.php" ?>
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-color:#aabcfe;border-spacing:0;}
+.tg td{background-color:#e8edff;border-color:#aabcfe;border-style:solid;border-width:1px;color:#669;
+  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{background-color:#b9c9fe;border-color:#aabcfe;border-style:solid;border-width:1px;color:#039;
+  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-phtq{background-color:#D2E4FC;border-color:inherit;text-align:left;vertical-align:top}
+.tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
+.tg .tg-ydyv{background-color:#D2E4FC;border-color:inherit;text-align:right;vertical-align:top}
+.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+.tg .tg-svo0{background-color:#D2E4FC;border-color:inherit;text-align:center;vertical-align:top}
+.tg .tg-dvpl{border-color:inherit;text-align:right;vertical-align:top}
+</style>
+<script LANGUAGE="JAVASCRIPT">
+		function ChangeMenu(url)
+		{
+			document.DataSearch.action = location.href;
+			document.DataSearch.submit();
+		}
+</script>
+
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <style>
+    font.holy {font-family: tahoma;font-size: 15px;color: #FF6C21;}
+    font.blue {font-family: tahoma;font-size: 15px;color: #0000FF;}
+    font.black {font-family: tahoma;font-size: 15px;color: #000000;}
+}
+
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <style>
+	select {
+    -webkit-appearance:none; /* 크롬 화살표 없애기 */
+    -moz-appearance:none; /* 파이어폭스 화살표 없애기 */
+    appearance:none /* 화살표 없애기 */
+	}
+  </style>
+
+<?php
+//---- 오늘 날짜
+$thisyear = date('Y'); // 4자리 연도
+$thismonth = date('n'); // 0을 포함하지 않는 월
+$today = date('j'); // 0을 포함하지 않는 일
+
+//------ $year, $month 값이 없으면 현재 날짜
+$year = isset($_GET['year']) ? $_GET['year'] : $thisyear;
+$month = isset($_GET['month']) ? $_GET['month'] : $thismonth;
+$day = isset($_GET['day']) ? $_GET['day'] : $today;
+
+$prev_month = $month - 1;
+$next_month = $month + 1;
+$prev_year = $next_year = $year;
+if ($month == 1) {
+    $prev_month = 12;
+    $prev_year = $year - 1;
+} else if ($month == 12) {
+    $next_month = 1;
+    $next_year = $year + 1;
+}
+$preyear = $year - 1;
+$nextyear = $year + 1;
+
+$predate = date("Y-m-d", mktime(0, 0, 0, $month - 1, 1, $year));
+$nextdate = date("Y-m-d", mktime(0, 0, 0, $month + 1, 1, $year));
+
+// 1. 총일수 구하기
+$max_day = date('t', mktime(0, 0, 0, $month, 1, $year)); // 해당월의 마지막 날짜
+//echo '총요일수'.$max_day.'<br />';
+
+// 2. 시작요일 구하기
+$start_week = date("w", mktime(0, 0, 0, $month, 1, $year)); // 일요일 0, 토요일 6
+
+// 3. 총 몇 주인지 구하기
+$total_week = ceil(($max_day + $start_week) / 7);
+
+// 4. 마지막 요일 구하기
+$last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
+
+if($month<10){
+	$t_month = "0".$month;
+}else{
+	$t_month = $month;
+
+}
+?>
+
+<?php
+
+//캘린더 기준으로 인해 아래처럼 적용
+$total_count = 0;
+
+$SrchYear = $year;
+$SrchMonth = $t_month;
+
+$search_query = " and input_user='$uID' ";
+$search_date = " and year='$SrchYear' and month='$SrchMonth' ";
+
+$result = mysqli_query($connection, "SELECT * FROM daily where 1 $search_query order by no desc");
+while($rows = mysqli_fetch_array($result)) {
+
+	$no = $rows['no'];
+	$d_no = $rows['d_no'];
+	$no_list[$total_count] = $no;
+	$d_count = $rows['d_count'];
+	$d_year[$no] = $rows['year'];
+	$d_month[$no] = $rows['month'];
+	$d_day[$no] = $rows['day'];
+	$d_visitdate[$no] = $rows['visitdate'];
+	$d_location[$no] = $rows['location'];
+	$d_time_in[$no] = $rows['time_in'];
+	$d_time_out[$no] = $rows['time_out'];
+	$d_purpose[$no] = $rows['purpose'];
+	$d_brand[$no] = $rows['brand'];
+	$d_channel[$no] = $rows['channel'];
+	$d_store[$no] = $rows['store'];
+	$d_mgr[$no] = $rows['mgr'];
+	$d_input_user[$no] = $rows['input_user'];
+	$d_chk_no[$no] = $rows['chk_no'];
+
+	$d_t_in[$no] = substr($d_time_in[$no],11,5);
+	$d_t_out[$no] = substr($d_time_out[$no],11,5);
+
+
+$total_count++;
+}
+
+?>
+
+<?php
+
+$result = mysqli_query($connection, "SELECT * FROM checklist where division='a' ");
+
+while($rows = mysqli_fetch_array($result)) {
+
+	$no = $rows['no'];
+	$c_no = $rows['c_no'];
+	$c_count = $rows['c_count'];
+	$c_title[$c_count] = $rows['title'];
+	$c_brand[$c_count] = $rows['brand'];
+	$c_channel[$c_count] = $rows['channel'];
+	$c_store[$c_count] = $rows['store'];
+	$c_input_user[$c_count] = $rows['input_user'];
+	$c_division[$c_count] = $rows['division'];
+	$c_question[$c_count] = $rows['question'];
+	$c_type1[$c_count] = $rows['type1'];
+	$c_type2[$c_count] = $rows['type2'];
+	$c_type3[$c_count] = $rows['type3'];
+	$c_type4[$c_count] = $rows['type4'];
+	$c_type5[$c_count] = $rows['type5'];
+	$c_m01[$c_count] = $rows['m01'];
+	$c_m02[$c_count] = $rows['m02'];
+	$c_m03[$c_count] = $rows['m03'];
+	$c_m04[$c_count] = $rows['m04'];
+	$c_m05[$c_count] = $rows['m05'];
+	$c_m06[$c_count] = $rows['m06'];
+	$c_m07[$c_count] = $rows['m07'];
+	$c_m08[$c_count] = $rows['m08'];
+	$c_m09[$c_count] = $rows['m09'];
+	$c_m10[$c_count] = $rows['m10'];
+
+	$cc_m[1] = $rows['m01'];
+	$cc_m[2] = $rows['m02'];
+	$cc_m[3] = $rows['m03'];
+	$cc_m[4] = $rows['m04'];
+	$cc_m[5] = $rows['m05'];
+	$cc_m[6] = $rows['m06'];
+	$cc_m[7] = $rows['m07'];
+	$cc_m[8] = $rows['m08'];
+	$cc_m[9] = $rows['m09'];
+	$cc_m[10] = $rows['m10'];
+
+	$d_no = $rows['d_no'];
+
+	for($cc_count=1;$cc_count<=10;$cc_count++){
+		if($cc_m[$cc_count]){$c_m_data[$d_no][$c_count] = $cc_m[$cc_count];}
+	}
+
+	$c_answer[$d_no][$c_count] = $rows['answer'];
+
+	$cmdata = $c_m_data[$d_no][$c_count];
+
+	$canswer = $c_answer[$d_no][$c_count];
+
+	$checklist_total++;
+
+//echo "$no;$c_count;$c_question[$c_count];$c_type1[$c_count];;;<br>";
+
+}
+
+$arr_alphabet = array('a/','b/','c/','d/','e/','f/');
+$alphabet_count = 0;
+
+
+
+
+$store_name['s100001'] = "이마트 성수점";
+?>
+
+
+
+
+
+
+<?php
+//echo "<br><br>";
+
+$query = "select * from plan where year='$year' and month='$t_month' and input_user='$uID' ";
+
+$result = mysqli_query($connection, $query );
+while($rows = mysqli_fetch_array($result)) {
+	$no = $rows['no'];
+	$types = $rows['types'];
+	$q_no = $no;
+
+
+	for($dd=1;$dd<=31;$dd++){
+
+		if($dd<10){
+			$dd2 = "0".$dd;
+			$dd3 = "d0".$dd;
+		}else{
+			$dd2 = $dd;
+			$dd3 = "d".$dd;
+		}
+		$workingday_post = "$year$t_month$dd2";
+		$d_data = $workingday_arr[$workingday_post];
+
+		
+		$data = $rows[$dd3];
+
+		if($data){
+			if($types=="plan"){
+				$plan_data[$dd] = "<br>"."●";
+				$plan_data2[$workingday_post] = $data;
+				$plan_total++;
+//	echo "<br>$dd;$plan_data[$dd];";
+			}else{
+				if($data=="대체휴일"){$data="대휴";}
+				$closed_data[$dd] = "<br>".$data;
+				$closed_data2[$workingday_post] = $data;
+				$closed_total++;
+//	echo "<br>$dd;$closed_data[$dd];";
+			}
+		}
+		
+	}
+
+//echo "<br>type : $q_no;$types;";
+
+}
+
+?>
+
+
+    <!-- Start block -->
+    <section class="bg-white dark:bg-gray-900">
+        <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
+            <div class="mr-auto place-self-center lg:col-span-7">
+
+
+Plan : 근무일정   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="plan_mgr.html">mgr</a>
+			</div>
+		</div>
+	</scection>
+    <!-- Start block -->
+    <section class="bg-white dark:bg-gray-900">
+        <div class="max-w-screen-xl px-4 pb-8 mx-auto lg:pb-16">
+            <div class="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
+				<div>
+
+<table style="border : 1px solid black;  border-collapse : collapse;font-size: 15px;">
+
+  <tr align="center">
+    <td>
+        <a href="<?php echo 'plan.html?year='.$preyear.'&month='.$month . '&day=1'; ?>">◀◀</a>
+    </td>
+    <td>
+        <a href="<?php echo 'plan.html?year='.$prev_year.'&month='.$prev_month . '&day=1'; ?>">◀</a>
+    </td>
+    <td height="50" bgcolor="#FFFFFF" colspan="3">
+        <a href="<?php echo 'plan.html?year=' . $thisyear . '&month=' . $thismonth . '&day=1'; ?>">
+        <?php echo "&nbsp;&nbsp;" . $year . '년 ' . $month . '월 ' . "&nbsp;&nbsp;"; ?></a>
+    </td>
+    <td>
+        <a href="<?php echo 'plan.html?year='.$next_year.'&month='.$next_month.'&day=1'; ?>">▶</a>
+    </td>
+    <td>
+        <a href="<?php echo 'plan.html?year='.$nextyear.'&month='.$month.'&day=1'; ?>">▶▶</a>
+    </td>
+  </tr>
+  <tr class="info" style="border : 1px solid black;  border-collapse : collapse;font-size: 15px;">
+    <th hight="30" width="50">일</td>
+    <th width="50">월</th>
+    <th width="50">화</th>
+    <th width="50">수</th>
+    <th width="50">목</th>
+    <th width="50">금</th>
+    <th width="50">토</th>
+  </tr>
+
+  <?php
+    // 5. 화면에 표시할 화면의 초기값을 1로 설정
+    $day=1;
+
+    // 6. 총 주 수에 맞춰서 세로줄 만들기
+    for($i=1; $i <= $total_week; $i++){?>
+  <tr>
+    <?php
+    // 7. 총 가로칸 만들기
+    for ($j = 0; $j < 7; $j++) {
+        // 8. 첫번째 주이고 시작요일보다 $j가 작거나 마지막주이고 $j가 마지막 요일보다 크면 표시하지 않음
+        echo '<td height="50" valign="top" align="center">';
+        if (!(($i == 1 && $j < $start_week) || ($i == $total_week && $j > $last_week))) {
+
+            if ($j == 0) {
+                // 9. $j가 0이면 일요일이므로 빨간색
+                $style = "holy";
+            } else if ($j == 6) {
+                // 10. $j가 0이면 토요일이므로 파란색
+                $style = "blue";
+            } else {
+                // 11. 그외는 평일이므로 검정색
+                $style = "black";
+            }
+
+            // 12. 오늘 날짜면 굵은 글씨
+            if ($year == $thisyear && $month == $thismonth && $day == date("j")) {
+                // 13. 날짜 출력
+				$day2 = $plan_data[$day];
+ 				$day2 .= $closed_data[$day];
+                echo '<font class='.$style.'><strong>[';
+                echo $day;
+                echo ']</strong></font>';
+                echo $day2;
+            } else {
+				$day2 = $plan_data[$day];
+ 				$day2 .= $closed_data[$day];
+               echo '<font class='.$style.'>';
+                echo $day;
+                echo $day2;
+                echo '</font>';
+            }
+            // 14. 날짜 증가
+            $day++;
+        }
+        echo '</td>';
+    }
+ ?>
+  </tr>
+  <?php } ?>
+
+
+
+</table>
+<form action="plan_input.html" method="post">
+
+<input type=hidden name=year value="<?php echo $year?>">
+<input type=hidden name=month value="<?php echo $month?>">
+
+					<br><input type=submit value="등록" class="text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-purple-900">
+</form>
+				</div>
+
+				
+				<!-- Pricing Card -->
+                <div class="flex flex-col max-w-lg p-6 mx-auto text-center text-gray-900 bg-white border border-gray-100 rounded-lg shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+                    <h3 class="mb-4 text-2xl font-semibold"><?php echo $month; ?>월 근무목표</h3>
+                    <div class="flex items-baseline justify-center my-8">
+                        <span class="mr-2 text-5xl font-extrabold"><?php echo $plan_total; ?>일</span>
+                    </div>
+                    <!-- List -->
+                    <ul role="list" class="mb-8 space-y-4 text-left">
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            <span>근무목표 <?php echo $plan_total; ?> / 달성 <?php echo "$total_count"; ?></span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            <span>대체휴일</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            <span>연장근무 or 특근</span>
+                        </li>
+						</ul>
+                    <a href="annual.html" class="text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-purple-900">휴가신청</a>
+                </div>
+
+	        </div>
+		</div>
+	</scection>
+
+    <!-- End block -->
+
+
+    <!-- Start block -->
+
+            <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8">
+
+	<!-- End block -->
+
+
+<?php  include "../include/footer.html" ?>

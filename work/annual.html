@@ -1,0 +1,227 @@
+<?php  include "../include/session.php" ?>
+
+<?php  include "../include/top.html" ?>
+
+<?php  include "../include/dbinfo.inc" ?>
+
+<?php
+
+ /* Connect to MySQL and select the database. */
+
+  $connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
+
+  if(mysqli_connect_errno()) echo "Failed to connect to MySQL: " . mysqli_connect_error();
+
+   $database = mysqli_select_db($connection, DB_DATABASE);
+
+?>
+<?php  include "../include/db_query.php" ?>
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-color:#aabcfe;border-spacing:0;}
+.tg td{background-color:#e8edff;border-color:#aabcfe;border-style:solid;border-width:1px;color:#669;
+  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{background-color:#b9c9fe;border-color:#aabcfe;border-style:solid;border-width:1px;color:#039;
+  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-phtq{background-color:#D2E4FC;border-color:inherit;text-align:left;vertical-align:top}
+.tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
+.tg .tg-ydyv{background-color:#D2E4FC;border-color:inherit;text-align:right;vertical-align:top}
+.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+.tg .tg-svo0{background-color:#D2E4FC;border-color:inherit;text-align:center;vertical-align:top}
+.tg .tg-dvpl{border-color:inherit;text-align:right;vertical-align:top}
+</style>
+<script LANGUAGE="JAVASCRIPT">
+		function ChangeMenu(url)
+		{
+			document.DataSearch.action = location.href;
+			document.DataSearch.submit();
+		}
+</script>
+
+
+<?php
+$SrchYear = ($_POST['SrchYear']);
+$SrchMonth = ($_POST['SrchMonth']);
+$SrchDay = ($_POST['SrchDay']);
+
+
+if(!$SrchYear){
+	$SrchYear = date("Y");
+}
+if(!$SrchMonth){
+	$SrchMonth = date("m");
+}
+if(!$SrchDay){
+	$SrchDay = date("d");
+}
+
+if(!$t_year){
+	$t_year = date("Y");
+}
+if(!$t_month){
+	$t_month = date("m");
+}
+if(!$t_day){
+	$t_day = date("d");
+}
+
+
+
+$total_count = 0;
+
+//echo "$uID;;";
+
+$result = mysqli_query($connection, "SELECT * FROM annual where user_id='$uID' order by no desc");
+while($rows = mysqli_fetch_array($result)) {
+
+	$q_no = $rows['no'];
+	$qno[$total_count] = $q_no;
+	$a_category[$q_no]		 = $rows['category'];
+	$a_username[$q_no]		 = $rows['name'];
+	$a_userjumin[$q_no]		 = $rows['jumin'];
+	$a_n_days[$q_no]		 = $rows['date'];
+	$a_start_d[$q_no]		 = $rows['start'];
+	$a_end_d[$q_no]			 = $rows['end'];
+	$a_phone[$q_no]			 = $rows['phone'];
+
+	$a_visitdate[$q_no]		 = $rows['visitdate'];
+
+	$a_types[$q_no]			 = $rows['types'];
+	$a_contents[$q_no]		 = $rows['contents'];
+	$a_sign[$q_no]			 = $rows['sign'];
+
+
+	$a_requestdate[$q_no]	 = $rows['requestdate'];
+	$a_brand[$q_no]			 = $rows['brand'];
+	$a_mgr[$q_no]			 = $rows['mgr'];
+	$a_complete[$q_no]		 = $rows['complete'];
+
+	$a_user_id[$q_no]		 = $rows['user_id'];
+
+	$a_year[$q_no]		 = $rows['year'];
+	$a_month[$q_no]		 = $rows['month'];
+	$a_day[$q_no]		 = $rows['day'];
+
+
+$total_count++;
+}
+
+?>
+    <!-- Start block -->
+    <section class="bg-white dark:bg-gray-900">
+        <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
+            <div class="mr-auto place-self-center lg:col-span-7">
+
+
+		<form name="DataSearch" method="POST">검색 : 
+                    <select name="SrchYear" >
+                      <option value="2022" <?php if($SrchYear=="2022"){echo "selected";}?> >2022년</option>
+                      <option value="2023" <?php if($SrchYear=="2023"){echo "selected";}?> >2023년</option>
+                      <option value="2024" <?php if($SrchYear=="2024"){echo "selected";}?> >2024년</option>
+                      <option value="2025" <?php if($SrchYear=="2025"){echo "selected";}?> >2025년</option>
+                    </select>
+                    <select name="SrchMonth" OnChange="ChangeMenu()">
+                      <option value="01" <?php if($SrchMonth=="01"){echo "selected";}?> >1월</option>
+                      <option value="02" <?php if($SrchMonth=="02"){echo "selected";}?> >2월</option>
+                      <option value="03" <?php if($SrchMonth=="03"){echo "selected";}?> >3월</option>
+                      <option value="04" <?php if($SrchMonth=="04"){echo "selected";}?> >4월</option>
+                      <option value="05" <?php if($SrchMonth=="05"){echo "selected";}?> >5월</option>
+                      <option value="06" <?php if($SrchMonth=="06"){echo "selected";}?> >6월</option>
+                      <option value="07" <?php if($SrchMonth=="07"){echo "selected";}?> >7월</option>
+                      <option value="08" <?php if($SrchMonth=="08"){echo "selected";}?> >8월</option>
+                      <option value="09" <?php if($SrchMonth=="09"){echo "selected";}?> >9월</option>
+                      <option value="10" <?php if($SrchMonth=="10"){echo "selected";}?> >10월</option>
+                      <option value="11" <?php if($SrchMonth=="11"){echo "selected";}?> >11월</option>
+                      <option value="12" <?php if($SrchMonth=="12"){echo "selected";}?> >12월</option>
+                    </select>
+
+			</form>
+			</div>
+		</div>
+	</scection>
+    <!-- Start block -->
+    <section class="bg-white dark:bg-gray-900">
+        <div class="max-w-screen-xl px-4 pb-8 mx-auto lg:pb-16">
+            <div class="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
+				<div>
+
+<table class="tg">
+<thead>
+  <tr>
+    <th class="tg-c3ow" colspan="5">휴가 > 사용현황</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-svo0">신청일</td>
+    <td class="tg-svo0">종류</td>
+    <td class="tg-svo0">내용</td>
+    <td class="tg-svo0">사용일</td>
+    <td class="tg-svo0">내용</td>
+  </tr>
+
+<?php
+for($count=0;$count<$total_count;$count++){
+
+	$q_no = $qno[$count];
+	$cate = $a_category[$q_no];
+	$u_name = $a_username[$q_no];
+	$u_jumin = $a_userjumin[$q_no];
+	$ndays = $a_n_days[$q_no];
+	$s_d = $a_start_d[$q_no];
+	$e_d = $a_end_d[$q_no];
+	$phone_num = $a_phone[$q_no];
+	$typ = $a_types[$q_no];
+	$conts = $a_contents[$q_no];
+	$sing_info = $a_sign[$q_no];
+
+	$v_date1 = mb_substr($a_visitdate[$q_no],4,2);
+	$v_date2 = mb_substr($a_visitdate[$q_no],6,2);
+	$v_date = $v_date1.".".$v_date2;
+
+	$req = $a_requestdate[$q_no];
+	$brand_name = $a_brand[$q_no];
+	$mgr_name = $a_mgr[$q_no];
+	$comp = $a_complete[$q_no];
+
+	$user_id = $a_user_id[$q_no];
+
+	$use_date = "$a_year[$q_no].$a_month[$q_no].$a_day[$q_no]";
+
+
+	if($conts){$conts = mb_substr($conts, 0, 8, 'utf-8');}
+
+?>
+
+  <tr>
+    <td class="tg-c3ow"><?php echo "$v_date"; ?></td>
+    <td class="tg-dvpl"><?php echo "$cate"; ?></td>
+    <td class="tg-c3ow"><?php echo "$typ"; ?></td>
+    <td class="tg-c3ow"><?php echo "$req"; ?></td>
+    <td class="tg-c3ow"><?php echo "$conts"; ?></td>
+  </tr>
+
+<?php 
+}
+?>
+
+</tbody>
+</table>			
+				</div>
+	        </div>
+<br>
+                    <a href="annual_input.html" class="text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-purple-900">휴가신청</a>
+		</div>
+	</scection>
+
+    <!-- End block -->
+
+
+    <!-- Start block -->
+
+            <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8">
+
+	<!-- End block -->
+
+
+<?php  include "../include/footer.html" ?>

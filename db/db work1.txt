@@ -1,0 +1,343 @@
+Xshell 7 (Build 0113)
+Copyright (c) 2020 NetSarang Computer, Inc. All rights reserved.
+
+Type `help' to learn how to use Xshell prompt.
+[C:\~]$ 
+
+Host 'ec2-3-37-213-141.ap-northeast-2.compute.amazonaws.com' resolved to 3.37.213.141.
+Connecting to 3.37.213.141:22...
+Connection established.
+To escape to local shell, press 'Ctrl+Alt+]'.
+
+Welcome to Ubuntu 22.04.1 LTS (GNU/Linux 5.15.0-1022-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Mon Nov 28 03:22:26 UTC 2022
+
+  System load:  0.0               Processes:             115
+  Usage of /:   44.6% of 7.57GB   Users logged in:       0
+  Memory usage: 7%                IPv4 address for ens5: 172.31.48.91
+  Swap usage:   0%
+
+ * Ubuntu Pro delivers the most comprehensive open source security and
+   compliance features.
+
+   https://ubuntu.com/aws/pro
+
+64 updates can be applied immediately.
+To see these additional updates run: apt list --upgradable
+
+
+*** System restart required ***
+Last login: Thu Nov 24 15:44:18 2022 from 211.44.146.59
+ubuntu@ip-172-31-48-91:~$ sudo mysql -h wordpress.cjvbtvfxtuvr.ap-northeast-2.rds.amazonaws.com -P 3306 -u admin -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MySQL connection id is 1759
+Server version: 8.0.28 Source distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MySQL [(none)]> use marketpro
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> show tables;
++---------------------+
+| Tables_in_marketpro |
++---------------------+
+| Employees           |
+| checklist           |
+| daily               |
++---------------------+
+3 rows in set (0.001 sec)
+
+MySQL [marketpro]> desc daily
+    -> ;
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| no         | int          | NO   | PRI | NULL    | auto_increment |
+| d_no       | varchar(8)   | YES  |     | NULL    |                |
+| d_count    | varchar(8)   | YES  |     | NULL    |                |
+| year       | varchar(4)   | YES  |     | NULL    |                |
+| month      | varchar(2)   | YES  |     | NULL    |                |
+| day        | varchar(2)   | YES  |     | NULL    |                |
+| visitdate  | varchar(8)   | YES  |     | NULL    |                |
+| location   | varchar(8)   | YES  |     | NULL    |                |
+| time_in    | varchar(20)  | YES  |     | NULL    |                |
+| time_out   | varchar(20)  | YES  |     | NULL    |                |
+| purpose    | varchar(100) | YES  |     | NULL    |                |
+| brand      | varchar(50)  | YES  |     | NULL    |                |
+| channel    | varchar(50)  | YES  |     | NULL    |                |
+| store      | varchar(50)  | YES  |     | NULL    |                |
+| mgr        | varchar(20)  | YES  |     | NULL    |                |
+| input_user | varchar(20)  | YES  |     | NULL    |                |
+| chk_no     | varchar(20)  | YES  |     | NULL    |                |
+| inputdate  | datetime     | YES  |     | NULL    |                |
+| modidate   | datetime     | YES  |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+19 rows in set (0.002 sec)
+
+MySQL [marketpro]> select * from daily;
+Empty set (0.000 sec)
+
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> SELECT * FROM daily where 1
+    -> ;
+Empty set (0.000 sec)
+
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> ;
+ERROR: No query specified
+
+MySQL [marketpro]> SELECT * FROM daily where 1;
+Empty set (0.000 sec)
+
+MySQL [marketpro]> INSERT INTO 'daily' ('no','d_no','d_count','year','month','day','visitdate','location','time_in','purpose','brand','channel','store','mgr','input_user','chk_no') VALUES ( '' , '', '1' , '','','','20221128','','','야긴진열','해즈브로','','s100001','','','' );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''daily' ('no','d_no','d_count','year','month','day','visitdate','location','time' at line 1
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> SELECT * FROM daily where 1;
+Empty set (0.000 sec)
+
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> INSERT INTO daily ('no','d_no','d_count','year','month','day','visitdate','location','time_in','purpose','brand','channel','store','mgr','input_user','chk_no') VALUES ( '' , '', '1' , '','','','20221128','','','야긴진열','해즈브로','','s100001','','','' );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''no','d_no','d_count','year','month','day','visitdate','location','time_in','pur' at line 1
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> INSERT INTO daily ('no','d_no','d_count','year','month','day','visitdate','location','time_in','purpose','brand','channel','store','mgr','input_user','chk_no') VALUES ( '' , '', '1' , '','','','20221128','','2022-11-28 08:04:11','교육','해즈브로','','s100001','','','' );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''no','d_no','d_count','year','month','day','visitdate','location','time_in','pur' at line 1
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> insert into daily (no,d_count,purpose) values ('','1','진열');
+Query OK, 1 row affected, 1 warning (0.006 sec)
+
+MySQL [marketpro]> select * from daily;
++----+------+---------+------+-------+------+-----------+----------+---------+----------+---------+-------+---------+-------+------+------------+--------+-----------+----------+
+| no | d_no | d_count | year | month | day  | visitdate | location | time_in | time_out | purpose | brand | channel | store | mgr  | input_user | chk_no | inputdate | modidate |
++----+------+---------+------+-------+------+-----------+----------+---------+----------+---------+-------+---------+-------+------+------------+--------+-----------+----------+
+|  1 | NULL | 1       | NULL | NULL  | NULL | NULL      | NULL     | NULL    | NULL     | 진열    | NULL  | NULL    | NULL  | NULL | NULL       | NULL   | NULL      | NULL     |
++----+------+---------+------+-------+------+-----------+----------+---------+----------+---------+-------+---------+-------+------+------------+--------+-----------+----------+
+1 row in set (0.000 sec)
+
+MySQL [marketpro]> insert into daily ('no','d_count','purpose') values ('','2','진열');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''no','d_count','purpose') values ('','2','진열')' at line 1
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> INSERT INTO daily (no,d_no,d_count,year,month,day,visitdate,location,time_in,purpose,brand,channel,store,mgr,input_user,chk_no) VALUES ( '' , '', '1' , '','','','20221128','','2022-11-28 08:04:11','교육','해즈브로','','s100001','','','' );
+Query OK, 1 row affected, 1 warning (0.006 sec)
+
+MySQL [marketpro]> select * from daily;
++----+------+---------+------+-------+------+-----------+----------+---------------------+----------+---------+--------------+---------+---------+------+------------+--------+-----------+----------+
+| no | d_no | d_count | year | month | day  | visitdate | location | time_in             | time_out | purpose | brand        | channel | store   | mgr  | input_user | chk_no | inputdate | modidate |
++----+------+---------+------+-------+------+-----------+----------+---------------------+----------+---------+--------------+---------+---------+------+------------+--------+-----------+----------+
+|  1 | NULL | 1       | NULL | NULL  | NULL | NULL      | NULL     | NULL                | NULL     | 진열    | NULL         | NULL    | NULL    | NULL | NULL       | NULL   | NULL      | NULL     |
+|  2 |      | 1       |      |       |      | 20221128  |          | 2022-11-28 08:04:11 | NULL     | 교육    | 해즈브로     |         | s100001 |      |            |        | NULL      | NULL     |
+|  3 |      | 1       |      |       |      | 20221128  |          | 2022-11-28 08:04:11 | NULL     | 교육    | 해즈브로     |         | s100001 |      |            |        | NULL      | NULL     |
++----+------+---------+------+-------+------+-----------+----------+---------------------+----------+---------+--------------+---------+---------+------+------------+--------+-----------+----------+
+3 rows in set (0.000 sec)
+
+MySQL [marketpro]> 
+Socket error Event: 32 Error: 10053.
+Connection closing...Socket close.
+
+Connection closed by foreign host.
+
+Disconnected from remote host(new aws) at 17:59:07.
+
+Type `help' to learn how to use Xshell prompt.
+[C:\~]$ 
+
+Host 'ec2-3-37-213-141.ap-northeast-2.compute.amazonaws.com' resolved to 3.37.213.141.
+Connecting to 3.37.213.141:22...
+Connection established.
+To escape to local shell, press 'Ctrl+Alt+]'.
+
+Welcome to Ubuntu 22.04.1 LTS (GNU/Linux 5.15.0-1022-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Mon Nov 28 09:03:59 UTC 2022
+
+  System load:  0.0               Processes:             123
+  Usage of /:   44.6% of 7.57GB   Users logged in:       1
+  Memory usage: 7%                IPv4 address for ens5: 172.31.48.91
+  Swap usage:   0%
+
+ * Ubuntu Pro delivers the most comprehensive open source security and
+   compliance features.
+
+   https://ubuntu.com/aws/pro
+
+64 updates can be applied immediately.
+To see these additional updates run: apt list --upgradable
+
+
+*** System restart required ***
+Last login: Mon Nov 28 03:22:27 2022 from 210.96.209.106
+ubuntu@ip-172-31-48-91:~$ 
+ubuntu@ip-172-31-48-91:~$ 
+ubuntu@ip-172-31-48-91:~$ 
+ubuntu@ip-172-31-48-91:~$ 
+ubuntu@ip-172-31-48-91:~$ 
+ubuntu@ip-172-31-48-91:~$ 
+ubuntu@ip-172-31-48-91:~$ 
+ubuntu@ip-172-31-48-91:~$ 
+ubuntu@ip-172-31-48-91:~$ 
+ubuntu@ip-172-31-48-91:~$ 
+ubuntu@ip-172-31-48-91:~$ 
+ubuntu@ip-172-31-48-91:~$ sudo mysql -h wordpress.cjvbtvfxtuvr.ap-northeast-2.rds.amazonaws.com -P 3306 -u admin -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MySQL connection id is 1877
+Server version: 8.0.28 Source distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MySQL [(none)]> 
+MySQL [(none)]> 
+MySQL [(none)]> 
+MySQL [(none)]> use marketpro
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MySQL [marketpro]> selectg * from daily
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selectg * from daily' at line 1
+MySQL [marketpro]> select * from daily;
++----+------+---------+------+-------+------+-----------+----------+---------------------+----------+---------+--------------+---------+---------+------+------------+--------+-----------+----------+
+| no | d_no | d_count | year | month | day  | visitdate | location | time_in             | time_out | purpose | brand        | channel | store   | mgr  | input_user | chk_no | inputdate | modidate |
++----+------+---------+------+-------+------+-----------+----------+---------------------+----------+---------+--------------+---------+---------+------+------------+--------+-----------+----------+
+|  1 | NULL | 1       | NULL | NULL  | NULL | NULL      | NULL     | NULL                | NULL     | 진열    | NULL         | NULL    | NULL    | NULL | NULL       | NULL   | NULL      | NULL     |
+|  2 |      | 1       |      |       |      | 20221128  |          | 2022-11-28 08:04:11 | NULL     | 교육    | 해즈브로     |         | s100001 |      |            |        | NULL      | NULL     |
+|  3 |      | 1       |      |       |      | 20221128  |          | 2022-11-28 08:04:11 | NULL     | 교육    | 해즈브로     |         | s100001 |      |            |        | NULL      | NULL     |
++----+------+---------+------+-------+------+-----------+----------+---------------------+----------+---------+--------------+---------+---------+------+------------+--------+-----------+----------+
+3 rows in set (0.000 sec)
+
+MySQL [marketpro]> select * from checklist;
++----+------+---------+--------------+--------------+---------+---------+------+------------+----------+-----------------------+----------+-------+-------+-------+-------+------+------+------+------+------+------+------+------+------+------+--------------+---------------------+---------------------+
+| no | c_no | c_count | title        | brand        | channel | store   | mgr  | input_user | division | question              | type1    | type2 | type3 | type4 | type5 | m01  | m02  | m03  | m04  | m05  | m06  | m07  | m08  | m09  | m10  | answer       | inputdate           | modidate            |
++----+------+---------+--------------+--------------+---------+---------+------+------------+----------+-----------------------+----------+-------+-------+-------+-------+------+------+------+------+------+------+------+------+------+------+--------------+---------------------+---------------------+
+|  1 | 1    | 1       | daily 매장   | 해즈브로     |         |         |      |            | q        | 매장진열상태          | checkbox |       |       | 10    |       | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9    | 10   | 6            | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
+|  2 | 1    | 2       | daily 매장   | 해즈브로     |         |         |      |            | q        | 재고현황              | range    | 1     | 10    |       | box   |      |      |      |      |      |      |      |      |      |      | 10           | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
+|  3 | 1    | 3       | daily 매장   | 해즈브로     |         |         |      |            | q        | 매장행사기간          | text     |       |       |       |       |      |      |      |      |      |      |      |      |      |      | 11.1-11.30   | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
+|  4 | 1    | 4       | daily 매장   | 해즈브로     |         |         |      |            | q        | 경쟁사행사현황        | checkbox |       |       | 3     |       | 유   | 무   |      |      |      |      |      |      |      |      | 유           | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
+|  5 | 1    | 5       | daily 매장   | 해즈브로     |         |         |      |            | q        | 경쟁사행사정보        | text     |       |       |       |       |      |      |      |      |      |      |      |      |      |      | 행사중       | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
+|  6 | 1    | 5       | NULL         | 해즈브로     | NULL    | s100001 | NULL | NULL       |          |                       |          |       |       |       |       |      |      |      |      |      |      |      |      |      |      | 행사없음     | 0000-00-00 00:00:00 | NULL                |
++----+------+---------+--------------+--------------+---------+---------+------+------------+----------+-----------------------+----------+-------+-------+-------+-------+------+------+------+------+------+------+------+------+------+------+--------------+---------------------+---------------------+
+6 rows in set (0.000 sec)
+
+MySQL [marketpro]> delete  from checklist where no='6';
+Query OK, 1 row affected (0.005 sec)
+
+MySQL [marketpro]> select * from checklist;
++----+------+---------+--------------+--------------+---------+-------+------+------------+----------+-----------------------+----------+-------+-------+-------+-------+------+------+------+------+------+------+------+------+------+------+------------+---------------------+---------------------+
+| no | c_no | c_count | title        | brand        | channel | store | mgr  | input_user | division | question              | type1    | type2 | type3 | type4 | type5 | m01  | m02  | m03  | m04  | m05  | m06  | m07  | m08  | m09  | m10  | answer     | inputdate           | modidate            |
++----+------+---------+--------------+--------------+---------+-------+------+------------+----------+-----------------------+----------+-------+-------+-------+-------+------+------+------+------+------+------+------+------+------+------+------------+---------------------+---------------------+
+|  1 | 1    | 1       | daily 매장   | 해즈브로     |         |       |      |            | q        | 매장진열상태          | checkbox |       |       | 10    |       | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9    | 10   | 6          | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
+|  2 | 1    | 2       | daily 매장   | 해즈브로     |         |       |      |            | q        | 재고현황              | range    | 1     | 10    |       | box   |      |      |      |      |      |      |      |      |      |      | 10         | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
+|  3 | 1    | 3       | daily 매장   | 해즈브로     |         |       |      |            | q        | 매장행사기간          | text     |       |       |       |       |      |      |      |      |      |      |      |      |      |      | 11.1-11.30 | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
+|  4 | 1    | 4       | daily 매장   | 해즈브로     |         |       |      |            | q        | 경쟁사행사현황        | checkbox |       |       | 3     |       | 유   | 무   |      |      |      |      |      |      |      |      | 유         | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
+|  5 | 1    | 5       | daily 매장   | 해즈브로     |         |       |      |            | q        | 경쟁사행사정보        | text     |       |       |       |       |      |      |      |      |      |      |      |      |      |      | 행사중     | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
++----+------+---------+--------------+--------------+---------+-------+------+------------+----------+-----------------------+----------+-------+-------+-------+-------+------+------+------+------+------+------+------+------+------+------+------------+---------------------+---------------------+
+5 rows in set (0.000 sec)
+
+MySQL [marketpro]> select * from checklist;
++----+------+---------+--------------+--------------+---------+-------+------+------------+----------+-----------------------+----------+-------+-------+-------+-------+------+------+------+------+------+------+------+------+------+------+------------+---------------------+---------------------+
+| no | c_no | c_count | title        | brand        | channel | store | mgr  | input_user | division | question              | type1    | type2 | type3 | type4 | type5 | m01  | m02  | m03  | m04  | m05  | m06  | m07  | m08  | m09  | m10  | answer     | inputdate           | modidate            |
++----+------+---------+--------------+--------------+---------+-------+------+------------+----------+-----------------------+----------+-------+-------+-------+-------+------+------+------+------+------+------+------+------+------+------+------------+---------------------+---------------------+
+|  1 | 1    | 1       | daily 매장   | 해즈브로     |         |       |      |            | q        | 매장진열상태          | checkbox |       |       | 10    |       | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9    | 10   | 6          | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
+|  2 | 1    | 2       | daily 매장   | 해즈브로     |         |       |      |            | q        | 재고현황              | range    | 1     | 10    |       | box   |      |      |      |      |      |      |      |      |      |      | 10         | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
+|  3 | 1    | 3       | daily 매장   | 해즈브로     |         |       |      |            | q        | 매장행사기간          | text     |       |       |       |       |      |      |      |      |      |      |      |      |      |      | 11.1-11.30 | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
+|  4 | 1    | 4       | daily 매장   | 해즈브로     |         |       |      |            | q        | 경쟁사행사현황        | checkbox |       |       | 3     |       | 유   | 무   |      |      |      |      |      |      |      |      | 유         | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
+|  5 | 1    | 5       | daily 매장   | 해즈브로     |         |       |      |            | q        | 경쟁사행사정보        | text     |       |       |       |       |      |      |      |      |      |      |      |      |      |      | 행사중     | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
++----+------+---------+--------------+--------------+---------+-------+------+------------+----------+-----------------------+----------+-------+-------+-------+-------+------+------+------+------+------+------+------+------+------+------+------------+---------------------+---------------------+
+5 rows in set (0.000 sec)
+
+MySQL [marketpro]> select * from checklist;
++----+------+---------+--------------+--------------+---------+---------+------+------------+----------+-----------------------+----------+-------+-------+-------+-------+------+------+------+------+------+------+------+------+------+------+--------------+---------------------+---------------------+
+| no | c_no | c_count | title        | brand        | channel | store   | mgr  | input_user | division | question              | type1    | type2 | type3 | type4 | type5 | m01  | m02  | m03  | m04  | m05  | m06  | m07  | m08  | m09  | m10  | answer       | inputdate           | modidate            |
++----+------+---------+--------------+--------------+---------+---------+------+------------+----------+-----------------------+----------+-------+-------+-------+-------+------+------+------+------+------+------+------+------+------+------+--------------+---------------------+---------------------+
+|  1 | 1    | 1       | daily 매장   | 해즈브로     |         |         |      |            | q        | 매장진열상태          | checkbox |       |       | 10    |       | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9    | 10   | 6            | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
+|  2 | 1    | 2       | daily 매장   | 해즈브로     |         |         |      |            | q        | 재고현황              | range    | 1     | 10    |       | box   |      |      |      |      |      |      |      |      |      |      | 10           | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
+|  3 | 1    | 3       | daily 매장   | 해즈브로     |         |         |      |            | q        | 매장행사기간          | text     |       |       |       |       |      |      |      |      |      |      |      |      |      |      | 11.1-11.30   | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
+|  4 | 1    | 4       | daily 매장   | 해즈브로     |         |         |      |            | q        | 경쟁사행사현황        | checkbox |       |       | 3     |       | 유   | 무   |      |      |      |      |      |      |      |      | 유           | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
+|  5 | 1    | 5       | daily 매장   | 해즈브로     |         |         |      |            | q        | 경쟁사행사정보        | text     |       |       |       |       |      |      |      |      |      |      |      |      |      |      | 행사중       | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
+|  7 | 1    | 1       | daily 매장   | 해즈브로     | NULL    | s100001 | NULL | NULL       | a        |                       |          |       |       |       |       |      | 2    |      |      |      |      |      |      |      |      |              | 0000-00-00 00:00:00 | NULL                |
+|  8 | 1    | 2       | daily 매장   | 해즈브로     | NULL    | s100001 | NULL | NULL       | a        |                       |          |       |       |       |       |      |      |      |      |      |      |      |      |      |      | 7            | 0000-00-00 00:00:00 | NULL                |
+|  9 | 1    | 3       | daily 매장   | 해즈브로     | NULL    | s100001 | NULL | NULL       | a        |                       |          |       |       |       |       |      |      |      |      |      |      |      |      |      |      | 11.22        | 0000-00-00 00:00:00 | NULL                |
+| 10 | 1    | 4       | daily 매장   | 해즈브로     | NULL    | s100001 | NULL | NULL       | a        |                       |          |       |       |       |       | 유   |      |      |      |      |      |      |      |      |      |              | 0000-00-00 00:00:00 | NULL                |
+| 11 | 1    | 5       | daily 매장   | 해즈브로     | NULL    | s100001 | NULL | NULL       | a        |                       |          |       |       |       |       |      |      |      |      |      |      |      |      |      |      | 행사없음     | 0000-00-00 00:00:00 | NULL                |
++----+------+---------+--------------+--------------+---------+---------+------+------------+----------+-----------------------+----------+-------+-------+-------+-------+------+------+------+------+------+------+------+------+------+------+--------------+---------------------+---------------------+
+10 rows in set (0.001 sec)
+
+MySQL [marketpro]> select * from daily;
++----+------+---------+------+-------+------+-----------+----------+---------------------+----------+---------+--------------+---------+---------+------+------------+--------+-----------+----------+
+| no | d_no | d_count | year | month | day  | visitdate | location | time_in             | time_out | purpose | brand        | channel | store   | mgr  | input_user | chk_no | inputdate | modidate |
++----+------+---------+------+-------+------+-----------+----------+---------------------+----------+---------+--------------+---------+---------+------+------------+--------+-----------+----------+
+|  1 | NULL | 1       | NULL | NULL  | NULL | NULL      | NULL     | NULL                | NULL     | 진열    | NULL         | NULL    | NULL    | NULL | NULL       | NULL   | NULL      | NULL     |
+|  2 |      | 1       |      |       |      | 20221128  |          | 2022-11-28 08:04:11 | NULL     | 교육    | 해즈브로     |         | s100001 |      |            |        | NULL      | NULL     |
+|  3 |      | 1       |      |       |      | 20221128  |          | 2022-11-28 08:04:11 | NULL     | 교육    | 해즈브로     |         | s100001 |      |            |        | NULL      | NULL     |
++----+------+---------+------+-------+------+-----------+----------+---------------------+----------+---------+--------------+---------+---------+------+------------+--------+-----------+----------+
+3 rows in set (0.000 sec)
+
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> 
+MySQL [marketpro]> udpate  daily set  year='2022' , month='11' , day='28';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'udpate  daily set  year='2022' , month='11' , day='28'' at line 1
+MySQL [marketpro]> update  daily set  year='2022' , month='11' , day='28';
+Query OK, 3 rows affected (0.005 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+MySQL [marketpro]> select * from daily;
++----+------+---------+------+-------+------+-----------+----------+---------------------+----------+---------+--------------+---------+---------+------+------------+--------+-----------+----------+
+| no | d_no | d_count | year | month | day  | visitdate | location | time_in             | time_out | purpose | brand        | channel | store   | mgr  | input_user | chk_no | inputdate | modidate |
++----+------+---------+------+-------+------+-----------+----------+---------------------+----------+---------+--------------+---------+---------+------+------------+--------+-----------+----------+
+|  1 | NULL | 1       | 2022 | 11    | 28   | NULL      | NULL     | NULL                | NULL     | 진열    | NULL         | NULL    | NULL    | NULL | NULL       | NULL   | NULL      | NULL     |
+|  2 |      | 1       | 2022 | 11    | 28   | 20221128  |          | 2022-11-28 08:04:11 | NULL     | 교육    | 해즈브로     |         | s100001 |      |            |        | NULL      | NULL     |
+|  3 |      | 1       | 2022 | 11    | 28   | 20221128  |          | 2022-11-28 08:04:11 | NULL     | 교육    | 해즈브로     |         | s100001 |      |            |        | NULL      | NULL     |
++----+------+---------+------+-------+------+-----------+----------+---------------------+----------+---------+--------------+---------+---------+------+------------+--------+-----------+----------+
+3 rows in set (0.000 sec)
+
+MySQL [marketpro]> 

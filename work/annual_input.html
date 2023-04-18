@@ -1,0 +1,292 @@
+<?php  include "../include/session.php" ?>
+
+<?php  include "../include/top.html" ?>
+
+<?php  include "../include/dbinfo.inc" ?>
+
+<?php
+
+ /* Connect to MySQL and select the database. */
+
+  $connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
+
+  if(mysqli_connect_errno()) echo "Failed to connect to MySQL: " . mysqli_connect_error();
+
+   $database = mysqli_select_db($connection, DB_DATABASE);
+
+?>
+<?php  include "../include/db_query.php" ?>
+
+<?php //$API_KEY = "AIzaSyDWfgdeoBRxkbghvrhiYjjJeTuUoIPE4R0"; ?>
+
+<?php
+
+$time = date("Y-m-d H:i:s"); // 현재시간 저장
+//$q_no = ($_POST['q_no']);
+$modi_no = ($_GET['modi_no']);
+$q_no = ($_GET['modi_no']);
+
+?>
+
+<?php
+$SrchYear = ($_POST['SrchYear']);
+$SrchMonth = ($_POST['SrchMonth']);
+$SrchDay = ($_POST['SrchDay']);
+
+
+if(!$SrchYear){
+	$SrchYear = date("Y");
+}
+if(!$SrchMonth){
+	$SrchMonth = date("m");
+}
+if(!$SrchDay){
+	$SrchDay = date("d");
+}
+?>
+
+<?php
+//입력데이터 로드
+//1. 출퇴근 , 방문시간 목적
+
+$result = mysqli_query($connection, "SELECT * FROM store where 1 ");
+
+while($rows = mysqli_fetch_array($result)) {
+
+	$no = $rows['no'];
+	$scode = $rows['scode'];
+	$s_account[$scode] = $rows['account'];
+	$s_store[$scode] = $rows['store'];
+
+	$store_name[$scode] = "$s_account[$scode] $s_store[$scode]";
+
+
+//echo "$no;$uid;$uscode;$ucycle;;<br>";
+
+}
+
+
+
+//level 31이면 : 고정 , 단일매장
+
+$result = mysqli_query($connection, "SELECT * FROM my_info where u_id='$uID' ");
+
+while($rows = mysqli_fetch_array($result)) {
+
+	$no = $rows['no'];
+	$uid = $rows['u_id'];
+	$uscode = $rows['scode'];
+	$ucycle = $rows['cycle'];
+
+
+
+}
+
+//level 41이면 순회 : 매장선택
+
+?>
+
+<?php
+
+
+$result = mysqli_query($connection, "SELECT * FROM daily where no='$q_no' ");
+while($rows = mysqli_fetch_array($result)) {
+
+	$no = $rows['no'];
+	$d_no = $rows['d_no'];
+	$no_list[$total_count] = $no;
+	$d_count = $rows['d_count'];
+	$d_year[$no] = $rows['year'];
+	$d_month[$no] = $rows['month'];
+	$d_day[$no] = $rows['day'];
+	$d_visitdate[$no] = $rows['visitdate'];
+	$d_location[$no] = $rows['location'];
+	$d_time_in[$no] = $rows['time_in'];
+	$d_time_out[$no] = $rows['time_out'];
+	$d_purpose[$no] = $rows['purpose'];
+	$d_brand[$no] = $rows['brand'];
+	$d_channel[$no] = $rows['channel'];
+	$d_store[$no] = $rows['store'];
+	$d_mgr[$no] = $rows['mgr'];
+	$d_input_user[$no] = $rows['input_user'];
+	$d_chk_no[$no] = $rows['chk_no'];
+
+
+}
+
+?>
+<?php
+$result = mysqli_query($connection, "select * from checklist where division='a' and d_no='$q_no' ");
+//select * from checklist where division='a' and d_no='2';
+
+while($rows = mysqli_fetch_array($result)) {
+
+	$no = $rows['no'];
+	$c_no = $rows['c_no'];
+	$c_count = $rows['c_count'];
+	$ac_title[$c_count] = $rows['title'];
+	$ac_brand[$c_count] = $rows['brand'];
+	$ac_channel[$c_count] = $rows['channel'];
+	$ac_store[$c_count] = $rows['store'];
+	$ac_input_user[$c_count] = $rows['input_user'];
+	$ac_division[$c_count] = $rows['division'];
+	$ac_question[$c_count] = $rows['question'];
+	$ac_type1[$c_count] = $rows['type1'];
+	$ac_type2[$c_count] = $rows['type2'];
+	$ac_type3[$c_count] = $rows['type3'];
+	$ac_type4[$c_count] = $rows['type4'];
+	$ac_type5[$c_count] = $rows['type5'];
+	$ac_m01[$c_count] = $rows['m01'];
+	$ac_m02[$c_count] = $rows['m02'];
+	$ac_m03[$c_count] = $rows['m03'];
+	$ac_m04[$c_count] = $rows['m04'];
+	$ac_m05[$c_count] = $rows['m05'];
+	$ac_m06[$c_count] = $rows['m06'];
+	$ac_m07[$c_count] = $rows['m07'];
+	$ac_m08[$c_count] = $rows['m08'];
+	$ac_m09[$c_count] = $rows['m09'];
+	$ac_m10[$c_count] = $rows['m10'];
+
+	$acc_m[1] = $rows['m01'];
+	$acc_m[2] = $rows['m02'];
+	$acc_m[3] = $rows['m03'];
+	$acc_m[4] = $rows['m04'];
+	$acc_m[5] = $rows['m05'];
+	$acc_m[6] = $rows['m06'];
+	$acc_m[7] = $rows['m07'];
+	$acc_m[8] = $rows['m08'];
+	$acc_m[9] = $rows['m09'];
+	$acc_m[10] = $rows['m10'];
+
+	$ad_no = $rows['d_no'];
+
+	for($cc_count=1;$cc_count<=10;$cc_count++){
+		if($acc_m[$cc_count]){$ac_m_value[$c_count] = $acc_m[$cc_count];}
+	}
+
+	$ac_answer[$c_count] = $rows['answer'];
+
+
+
+}
+
+$arr_alphabet = array('a/','b/','c/','d/','e/','f/');
+$alphabet_count = 0;
+
+
+
+
+$store_name['s100001'] = "이마트 성수점";
+?>
+
+    <script>
+    (function () {
+      let map, infoWindow;
+      window.initMap = function () {
+        map = new google.maps.Map(document.getElementById('map'), {
+//          center: {lat: -34.397, lng: 150.644},
+          center: {lat: 37.5709413, lng: 126.977787},
+          zoom: 15
+        });
+        infoWindow = new google.maps.InfoWindow({map: map});
+        infoWindow.setContent('Your location');
+
+      };
+
+      document.getElementById("getLocation").onclick = function () {
+          navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+
+      };
+    }());
+    </script>
+
+
+    <!-- Start block -->
+    <section class="bg-white dark:bg-gray-900">
+
+		<form name="wppb-loginform" id="wppb-loginform" action="annual_input.php" method="post">
+
+        <div class="items-center max-w-screen-xl px-4 py-8 mx-auto lg:grid lg:grid-cols-4 lg:gap-16 xl:gap-24 lg:py-24 lg:px-6">
+            <div class="col-span-2 mb-8">
+                <p class="text-lg font-medium text-purple-600 dark:text-purple-500">필수기재</p>
+                <h2 class="mt-3 mb-4 text-3xl font-extrabold tracking-tight text-gray-900 md:text-3xl dark:text-white">
+<?php
+	echo "$SrchYear.";
+	echo "$SrchMonth.";
+	echo "$SrchDay";
+
+?>					
+				</h2>
+                <div class="pt-6 mt-6 space-y-4 border-t border-gray-200 dark:border-gray-700">
+                    <div>
+                      <p class="inline-flex items-center text-base font-medium text-purple-600 hover:text-purple-800 dark:text-purple-500 dark:hover:text-purple-700">
+					  작성자&nbsp;&nbsp;&nbsp;
+                        <svg class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+
+<?php
+	echo "$user_names[$uID]";
+	echo "($user_phonenums[$uID])";
+
+?>
+					<input id="store" type="hidden" name="store"  value="<?php echo $uscode;?>">
+					<input id="modi_no" type="hidden" name="modi_no"  value="<?php echo $modi_no;?>">						
+                      </p>
+                    </div>
+					<div>
+                      <p class="inline-flex items-center text-base font-medium text-purple-600 hover:text-purple-800 dark:text-purple-500 dark:hover:text-purple-700">
+					  구분&nbsp;&nbsp;&nbsp;
+                        <svg class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+
+								<select name="category" >
+								  <option value="휴가서">휴가서(활성)</option>
+								  <option value="야간근무신청">야간근무신청(비활성)</option>
+								  <option value="경조신청">경조신청(비활성)</option>
+								  <option value="기타서류신청">기타서류신청(비활성)</option>
+								</select>
+					<input id="store" type="hidden" name="store"  value="<?php echo $uscode;?>">
+					<input id="modi_no" type="hidden" name="modi_no"  value="<?php echo $modi_no;?>">						
+                      </p>
+                    </div>
+                    <div>
+                      <p class="inline-flex items-center text-base font-medium text-purple-600 hover:text-purple-800 dark:text-purple-500 dark:hover:text-purple-700">
+					  사용일자
+                        <svg class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+					<input type="text" name="target_date" placeholder="예)20230123" value=""> 
+					</div>
+                    <div>
+                      <p class="inline-flex items-center text-base font-medium text-purple-600 hover:text-purple-800 dark:text-purple-500 dark:hover:text-purple-700">
+					  휴가종류
+                        <svg class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+								<select name="types">
+								  <option value="연차">연차</option>
+								  <option value="반차">반차</option>
+								  <option value="대휴">대휴</option>
+								  <option value="병가">병가</option>
+								  <option value="기타">기타</option>
+								</select>
+					</div>
+                </div>
+            </div>
+            <div class="col-span-2 space-y-8 md:grid md:grid-cols-2 md:gap-12 md:space-y-0">
+
+                <div class="pt-6 mt-6 space-y-4 border-t border-gray-200 dark:border-gray-700">
+                      <p class="inline-flex items-center text-base font-medium text-purple-600 hover:text-purple-800 dark:text-purple-500 dark:hover:text-purple-700">
+                          비고
+                          <svg class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                      </p>
+					  <textarea id="contents" name="contents"  cols="32" rows="5"></textarea><br>
+
+
+                      <input class="favorite styled" type="submit" value="등록">
+
+
+                </div>
+            </div>
+
+</form>
+
+        </div>
+      </section>
+    <!-- End block -->
+
+<?php  include "../include/footer.html" ?>
